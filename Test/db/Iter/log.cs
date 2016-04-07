@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WF2.db.Iter
+namespace Test.db.Iter
 {
     using System;
     using System.Collections.Generic;

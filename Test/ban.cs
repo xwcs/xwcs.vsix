@@ -12,9 +12,16 @@ namespace Test
     using System;
     using System.Collections.Generic;
     
-    public partial class names
+    public partial class ban
     {
         public int id { get; set; }
-        public string Name { get; set; }
+        public int random { get; set; }
+        public string dictionary { get; set; }
+        public string text { get; set; }
+        public string cc { get; set; }
+        public string dxp { get; set; }
+        public Nullable<int> ndoc { get; set; }
+        public string xml { get; set; }
+        public string extra { get; set; }
     }
 }

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WF2.db.model1;
+using Test.db.model1;
 
-namespace WF2
+namespace Test
 {
 	public partial class Form1 : Form
 	{

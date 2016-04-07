@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WF2.db.model1
+namespace Test.db.model1
 {
     
     using System;

@@ -7,8 +7,8 @@
     <ProjectGuid>{993AF207-D963-41EE-9270-588E09D41AD4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WF2</RootNamespace>
-    <AssemblyName>WF2</AssemblyName>
+    <RootNamespace>Test</RootNamespace>
+    <AssemblyName>Test</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="attrs.cs" />
+    <Compile Include="ban.cs">
+      <DependentUpon>Modelxxxx.tt</DependentUpon>
+    </Compile>
     <Compile Include="db\Iter\labels.cs">
       <DependentUpon>ModelIter2.tt</DependentUpon>
     </Compile>
@@ -110,6 +113,11 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ModelIter2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\Iter\ModelIter2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ModelIter2.edmx</DependentUpon>
     </Compile>
     <Compile Include="db\Iter\tipolabel.cs">
       <DependentUpon>ModelIter2.tt</DependentUpon>
@@ -243,6 +251,7 @@
     </Compile>
     <Compile Include="States\document\DocumentStateTester.cs">
       <DependentUpon>DocumentState.tt</DependentUpon>
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="States\document\DupIsErasedGuard.cs">
       <DependentUpon>DocumentState.tt</DependentUpon>

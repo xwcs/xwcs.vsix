@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace WF2
+namespace Test
 {
 	public partial class Form3 : Form
 	{
@@ -190,7 +190,7 @@ namespace WF2
 
 			using (StringWriter sw1 = new StringWriter())
 			{
-				WF2.db.TestObj ttt = new WF2.db.TestObj { name = "nnn", qty = 1 };	
+				Test.db.TestObj ttt = new Test.db.TestObj { name = "nnn", qty = 1 };	
 
 				XmlWriterSettings settings = new XmlWriterSettings();
 				settings.Indent = false;
@@ -199,17 +199,17 @@ namespace WF2
 				XmlSerializerNamespaces nss = new XmlSerializerNamespaces();
 				nss.Add("", "");
 
-				XmlWriter writer = new XmlWriterExt(XmlWriter.Create(sw1, settings), typeof(WF2.db.TestObj));
+				XmlWriter writer = new XmlWriterExt(XmlWriter.Create(sw1, settings), typeof(Test.db.TestObj));
 				
 
 				
 
-				XmlSerializer s = new XmlSerializer(typeof(WF2.db.TestObj), new XmlRootAttribute {ElementName = "content" });
+				XmlSerializer s = new XmlSerializer(typeof(Test.db.TestObj), new XmlRootAttribute {ElementName = "content" });
 				s.Serialize(writer, ttt, nss);
 
 				valXml = sw1.ToString();
 
-				XmlSerializer ss = new XmlSerializer(typeof(WF2.db.TestObj), new XmlRootAttribute { ElementName = "content" });
+				XmlSerializer ss = new XmlSerializer(typeof(Test.db.TestObj), new XmlRootAttribute { ElementName = "content" });
 				using (XmlReader reader = XmlReader.Create(new StringReader(valXml)))
 				{
 					object ooo = ss.Deserialize(reader);

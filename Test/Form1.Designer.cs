@@ -1,4 +1,4 @@
-﻿namespace WF2
+﻿namespace Test
 {
 	partial class Form1
 	{
@@ -243,12 +243,12 @@
 			// entityInstantFeedbackSource1
 			// 
 			this.entityInstantFeedbackSource1.DefaultSorting = "id asc";
-			this.entityInstantFeedbackSource1.DesignTimeElementType = typeof(WF2.bab_view_data);
+			this.entityInstantFeedbackSource1.DesignTimeElementType = typeof(Test.bab_view_data);
 			this.entityInstantFeedbackSource1.KeyExpression = "id";
 			// 
 			// bindingSource1
 			// 
-			this.bindingSource1.DataSource = typeof(WF2.db.model1.bab);
+			this.bindingSource1.DataSource = typeof(Test.db.model1.bab);
 			// 
 			// Form1
 			// 

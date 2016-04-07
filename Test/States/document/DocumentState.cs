@@ -2,14 +2,14 @@
  
 
 
-// Converting C:\tmp\testing\DB\WF2\WF2\States\document\DocumentStates.tastate into .cs file
+// Converting C:\Projekty\xwcs\xwcs.vsix\Test\States\document\DocumentStates.tastate into .cs file
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using xwcs.core.statemachine;
 
-namespace WF2.States.document { // StateMachineNamespace
+namespace Test.States.document { // StateMachineNamespace
 
 
 	#region State Machine

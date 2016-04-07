@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using xwcs.core.statemachine;
 
-namespace WF2.States.document { // StateMachineNamespace
+namespace Test.States.document { // StateMachineNamespace
 
 	public partial class ValidateTrigger : TriggerBase {
 		public ValidateTrigger(StateMachine machine) : base (machine) {}

@@ -1,4 +1,4 @@
-﻿namespace WF2
+﻿namespace Test
 {
 	partial class XtraForm1
 	{

@@ -12,7 +12,7 @@ using DevExpress.Utils;
 using DevExpress.Data.Linq;
 using System.Data.Entity.Infrastructure;
 
-namespace WF2
+namespace Test
 {
 	public partial class Form5 : Form
 	{

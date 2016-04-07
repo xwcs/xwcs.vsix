@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors;
 
-namespace WF2
+namespace Test
 {
 	public partial class XtraForm1 : DevExpress.XtraEditors.XtraForm
 	{

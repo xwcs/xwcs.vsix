@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.Utils;
-using WF2.db.model1;
+using Test.db.model1;
 
-namespace WF2
+namespace Test
 {
 	public partial class Form4 : Form
 	{

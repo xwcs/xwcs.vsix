@@ -13,7 +13,7 @@ using System.Security;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace WF2
+namespace Test
 {
 	static class ExtensionMethods
 	{

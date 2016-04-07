@@ -368,7 +368,7 @@ StateGraph sg = new StateGraph(path) ;
 
 <#= Footer #>
 
-<# manager.StartNewFile(machineName+"Tester.cs") ;
+<# manager.StartNewFile(machineName+"TestForm.cs") ;
 #>
 <#= Header #>
 	public class <#= machineName + "TestForm"  #> : xwcs.core.statemachine.test.TestFormBase {

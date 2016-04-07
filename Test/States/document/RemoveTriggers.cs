@@ -7,7 +7,7 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class RemoveTrigger : TriggerBase {
-		public RemoveTrigger(StateMachine machine) : base (machine) {}
+		public RemoveTrigger(StateMachine machine) : base (machine, "RemoveTrigger") {}
 	}	
 
 }

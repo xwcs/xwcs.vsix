@@ -7,7 +7,7 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class ConsolidateTrigger : TriggerBase {
-		public ConsolidateTrigger(StateMachine machine) : base (machine) {}
+		public ConsolidateTrigger(StateMachine machine) : base (machine, "ConsolidateTrigger") {}
 	}	
 
 }

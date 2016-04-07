@@ -12,14 +12,8 @@
 <#@ import namespace="System.Collections.Generic" #> 
 
 <#
-const string solutionDir = @"C:\tmp\testing\DB\WF2\";
-const string rootname = @"DocumentState.tt";
-const string safeitemname = @"DocumentState";
-const string rootnamespace = @"WF2.States.document";
-const string genTime = @"07/04/2016 10:36:34";
-const string genUserName = @"Laco";
-
 const string inputFile = @"DocumentStates.tastate"; 
+
 
 var path = System.IO.Path.GetDirectoryName(this.Host.TemplateFile);
 var fileName = inputFile; //System.IO.Path.GetFileNameWithoutExtension(this.Host.TemplateFile);
@@ -51,7 +45,7 @@ StateGraph sg = new StateGraph(path) ;
 #>
 <#= Header #>
 	public partial class <#= triggerName #>Trigger : TriggerBase {
-		public <#= triggerName #>Trigger(StateMachine machine) : base (machine) {}
+		public <#= triggerName #>Trigger(StateMachine machine) : base (machine, "<#= triggerName #>Trigger") {}
 	}	
 <#= Footer #>
 <# manager.EndBlock();
@@ -298,12 +292,7 @@ StateGraph sg = new StateGraph(path) ;
 #><#				if (!string.IsNullOrEmpty(GetAttValue(transition, "effect")))
                     {
 					
-#>					this.TransitionToNewState(new <#= GetStateMoniker(transition, ref nsmgr)[2] #>State(this), trigger, guard, (p, n, t) =>
-                    {
-                        On<#= GetAttValue(transition, "effect") #>(p, n, t);
-                        return true ;
-                    }
-                    );
+#>					this.TransitionToNewState(new <#= GetStateMoniker(transition, ref nsmgr)[2] #>State(this), trigger, guard, <#= GetAttValue(transition, "effect") #>);
 
 <#					}
 					else {
@@ -368,11 +357,7 @@ StateGraph sg = new StateGraph(path) ;
 		// by a transition
 		foreach(var eventName in allEvents)
         {
-#>		protected void On<#= eventName #>(StateBase prev, StateBase next, TriggerBase why)
-		{
-			if (this.<#= eventName #> != null)
-				this.<#= eventName #>(this, new TransitionEventArgs(prev, next, why));
-		}
+#>		
 		public event TransitionEventHandler <#= eventName #>;
 
 <#      }
@@ -389,12 +374,25 @@ StateGraph sg = new StateGraph(path) ;
 	public class <#= machineName + "TestForm"  #> : xwcs.core.statemachine.test.TestFormBase {
 		protected override StateMachine CreateMachine()
 		{
-			return new <#= machineName#>(this);
+			StateMachine sm = new <#= machineName#>(this); 
+
+
+<#		// create events for all Effects that are raised
+		// by a transition
+		//var allEvents = GetEffectNames(sg);
+		foreach(var eventName in allEvents) 
+        {
+#>		
+			(sm as <#= machineName#>).<#= eventName #> += (s, e) => { Log("Effect : <#= eventName #> called.");};
+
+<#      }
+#>	
+		
+			return sm;
 		}
 	}	
 <#= Footer #>
-<# manager.EndBlock();
-#>
+<# manager.EndBlock();#>
 
 <# manager.Process(true); #>
 
@@ -594,5 +592,13 @@ public class condition {
 	public string _cn { get ; private set ; }
 	public string _sn { get ; private set ; }
 }
- #>
 
+public class Variables{
+	public const string solutionDir = @"C:\Projekty\xwcs\xwcs.vsix\";
+	public const string rootname = @"Machine1.tt";
+	public const string safeitemname = @"Machine1";
+	public const string rootnamespace = @"Test.States.document";
+	public const string genTime = @"07/04/2016 14:33:23";
+	public const string genUserName = @"Laco";
+}
+ #>

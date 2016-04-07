@@ -55,12 +55,7 @@ namespace Test.States.document { // StateMachineNamespace
 				if (trigger is ConsolidateTrigger)
 				{
 					CheckListOkGuard guard = new CheckListOkGuard(this) ;
-					this.TransitionToNewState(new ConsolidatoState(this), trigger, guard, (p, n, t) =>
-                    {
-                        OnNotifyValidators(p, n, t);
-                        return true ;
-                    }
-                    );
+					this.TransitionToNewState(new ConsolidatoState(this), trigger, guard, NotifyValidators);
 
 					return;
 				}
@@ -76,12 +71,7 @@ namespace Test.States.document { // StateMachineNamespace
 				if (trigger is RejectTrigger)
 				{
 					DefaultGuardBase guard = null ;
-					this.TransitionToNewState(new BozzaState(this), trigger, guard, (p, n, t) =>
-                    {
-                        OnRecordRejected(p, n, t);
-                        return true ;
-                    }
-                    );
+					this.TransitionToNewState(new BozzaState(this), trigger, guard, RecordRejected);
 
 					return;
 				}
@@ -222,18 +212,10 @@ namespace Test.States.document { // StateMachineNamespace
 		}
 
 		#region Events
-		protected void OnRecordRejected(StateBase prev, StateBase next, TriggerBase why)
-		{
-			if (this.RecordRejected != null)
-				this.RecordRejected(this, new TransitionEventArgs(prev, next, why));
-		}
+		
 		public event TransitionEventHandler RecordRejected;
 
-		protected void OnNotifyValidators(StateBase prev, StateBase next, TriggerBase why)
-		{
-			if (this.NotifyValidators != null)
-				this.NotifyValidators(this, new TransitionEventArgs(prev, next, why));
-		}
+		
 		public event TransitionEventHandler NotifyValidators;
 
 		#endregion

@@ -1,12 +1,11 @@
-﻿<#@ template language="C#" debug="false" hostspecific="true"#>
-<#@ include file="EF6.Utility.CS.ttinclude"#> 
+﻿<#@ template language="C#" debug="true" hostspecific="true"#>
+<#@ include file="EF6.Utility.CS.ttinclude"#>
 <#@ output extension=".cs"#>
 <#
 const string inputFile = @"ModelIter2.edmx"; 
-
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);
-var ef = new MetadataTools(this);
+var ef = new MetadataTools(this); 
 var typeMapper = new TypeMapper(code, ef, textTransform.Errors);
 var	fileManager = EntityFrameworkTemplateFileManager.Create(this);
 var itemCollection = new EdmMetadataLoader(textTransform.Host, textTransform.Errors).CreateEdmItemCollection(inputFile);
@@ -35,10 +34,10 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     }
 
 #>
-<#=codeStringGenerator.UsingDirectives(inHeader: false)#>
-<#=codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)#>
-{
-<#
+<#=codeStringGenerator.UsingDirectives(inHeader: false)#><#=
+codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)
+#>
+	{<#
     var propertiesWithDefaultValues = typeMapper.GetPropertiesWithDefaultValues(entity);
     var collectionNavigationProperties = typeMapper.GetCollectionNavigationProperties(entity);
     var complexProperties = typeMapper.GetComplexProperties(entity);
@@ -48,50 +47,44 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     //if (propertiesWithDefaultValues.Any() || collectionNavigationProperties.Any() || complexProperties.Any())
     //{
 #>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-    public <#=code.Escape(entity)#>()
-    {
-
-<#	
-
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+		public <#=code.Escape(entity)#>()
+		{<#	
         foreach (var edmProperty in propertiesWithDefaultValues)
-        {
-#>
-        this.<#=code.Escape(edmProperty)#> = <#=typeMapper.CreateLiteral(edmProperty.DefaultValue)#>;
-<#
+        {#>
+			this.<#=code.Escape(edmProperty)#> = <#=typeMapper.CreateLiteral(edmProperty.DefaultValue)#>;<#
         }
 
         foreach (var navigationProperty in collectionNavigationProperties)
-        {
-#>
-        this.<#=code.Escape(navigationProperty)#> = new HashSet<<#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>>();
-<#
+        {#>
+			this.<#=code.Escape(navigationProperty)#> = new HashSet<<#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>>();<#
         }
 
         foreach (var complexProperty in complexProperties)
-        {
-#>
-        this.<#=code.Escape(complexProperty)#> = new <#=typeMapper.GetTypeName(complexProperty.TypeUsage)#>();
+        {#>
+			this.<#=code.Escape(complexProperty)#> = new <#=typeMapper.GetTypeName(complexProperty.TypeUsage)#>();
 <#
         }
 #>
-	}
+		}
 
 	<#
 	if(serializedCount > 0){	
 	#>
-public override void GetMutablePropertiesType(Dictionary<string, Type> dest) {
+		public override void GetMutablePropertiesType(Dictionary<string, Type> dest) {
 	<#	
 		foreach (var edmProperty in serializedProperties)
 		{
 			string fName = code.Escape(edmProperty);	
 			if(fName.EndsWith("_dump_xml")){
 				string oName = Char.ToLowerInvariant(fName[0]) + fName.Substring(1) + "_obj";
-				#><#=string.Format("\tdest.Add(\"{0}\", _{0} != null ? _{0}.GetType() : typeof(object));\r\n", oName)
+				#><#=string.Format("\t\tdest.Add(\"{0}\", _{0} != null ? _{0}.GetType() : typeof(object));\r\n", oName)
 				#><#
 			}
 		}			
-	#><#="\r\n\t}\r\n"#><#
+	#>
+		}	
+	<#="\r\n"#><#
 	}	
 
 
@@ -99,22 +92,17 @@ public override void GetMutablePropertiesType(Dictionary<string, Type> dest) {
     if (simpleProperties.Any())
     {
         foreach (var edmProperty in simpleProperties)
-        {
-#>
-	<#=codeStringGenerator.Property(edmProperty)#>
-<#
+        {#>
+		<#=codeStringGenerator.Property(edmProperty)#><#
         }
     }
 
     if (complexProperties.Any())
-    {
-#>
-
+    {#>
 <#
         foreach(var complexProperty in complexProperties)
-        {
-#>
-    <#=codeStringGenerator.Property(complexProperty)#>
+        {#>
+		<#=codeStringGenerator.Property(complexProperty)#>
 <#
         }
     }
@@ -123,25 +111,19 @@ public override void GetMutablePropertiesType(Dictionary<string, Type> dest) {
 <#
     var navigationProperties = typeMapper.GetNavigationProperties(entity);
     if (navigationProperties.Any())
-    {
-#>
-
+    {#>
 <#
         foreach (var navigationProperty in navigationProperties)
         {
             if (navigationProperty.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many)
-            {
-#>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+            {#>
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 <#
-            }
-#>
-    <#=codeStringGenerator.NavigationProperty(navigationProperty)#>
-<#
+            }#>
+		<#=codeStringGenerator.NavigationProperty(navigationProperty)#><#
         }
-    }
-#>
-}
+    }#>
+	}
 <#
     EndNamespace(code);
 }
@@ -163,13 +145,12 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 #>
 
 <#=codeStringGenerator.UsingDirectives(inHeader: false)#>
-// This class is just for meta attributes editing
-// Do not write any logic here, it will be not considered
-// Copy this class somewhere else this one will be overridden!!!
+	// This class is just for meta attributes editing
+	// Do not write any logic here, it will be not considered
+	// Copy this class somewhere else this one will be overridden!!!
 
-<#=codeStringGenerator.EntityClassOpeningMeta(entity)#>
-{
-<#
+	<#=codeStringGenerator.EntityClassOpeningMeta(entity)#>
+	{<#
 		var propertiesWithDefaultValues = typeMapper.GetPropertiesWithDefaultValues(entity);
 		var collectionNavigationProperties = typeMapper.GetCollectionNavigationProperties(entity);
 		var complexProperties = typeMapper.GetComplexProperties(entity);
@@ -180,45 +161,35 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 		if (simpleProperties.Any())
 		{
 			foreach (var edmProperty in simpleProperties)
-			{
-#>
-    <#=codeStringGenerator.PropertyMeta(edmProperty)#>
-<#
+			{#>
+		<#=codeStringGenerator.PropertyMeta(edmProperty)#><#
 			}
 		}
 
 		var navigationProperties = typeMapper.GetNavigationProperties(entity);
 		if (navigationProperties.Any())
-		{
-#>
-
-<#
+		{#><#
 			foreach (var navigationProperty in navigationProperties)
-			{
-#>
-	[Display(AutoGenerateField=false)]
-    <#=codeStringGenerator.NavigationProperty(navigationProperty)#>
-<#
+			{#>
+		[Display(AutoGenerateField=false)]
+		<#=codeStringGenerator.NavigationProperty(navigationProperty)#><#
 			}
-		}
-#>
-}
+		}#>
+	}
 
 
-// This class couple its entity and it should be use
-// for extending functionalities of Entity class
-// here can be add de-serialized complex fields
-// or other necessary logic
-// copy this class to some other place
-// changes in this place will be overridden !!!
+	// This class couple its entity and it should be use
+	// for extending functionalities of Entity class
+	// here can be add de-serialized complex fields
+	// or other necessary logic
+	// copy this class to some other place
+	// changes in this place will be overridden !!!
 
-[MetadataType(typeof(<#=code.Escape(entity)#>_meta))]
-public partial class <#=code.Escape(entity)#>
-{
-	// here add custom fields ...
-}
-
-<#
+	[MetadataType(typeof(<#=code.Escape(entity)#>_meta))]
+	public partial class <#=code.Escape(entity)#>
+	{
+		// custom implementations
+	}<# 
 		EndNamespace(code);
 
 	}else{
@@ -348,10 +319,7 @@ public void WriteHeader(CodeStringGenerator codeStringGenerator, EntityFramework
 #>
 //------------------------------------------------------------------------------
 // <auto-generated>
-// <#=CodeGenerationTools.GetResourceString("Template_GeneratedCodeCommentLine1")#>
-//
-// <#=CodeGenerationTools.GetResourceString("Template_GeneratedCodeCommentLine2")#>
-// <#=CodeGenerationTools.GetResourceString("Template_GeneratedCodeCommentLine3")#>
+// By: <#=Variables.genUserName#>
 // </auto-generated>
 //------------------------------------------------------------------------------
 <#=codeStringGenerator.UsingDirectives(inHeader: true)#>
@@ -409,7 +377,7 @@ public class CodeStringGenerator
 	public string GetSerialization(){
 		
 		if(_serialized.Count > 0){
-			string ret = "\tpublic override void DeserializeFields(){\r\n\t\tobject o;\r\n";
+			string ret = "\t\tpublic override void DeserializeFields(){\r\n\t\tobject o;\r\n";
 			string ret1 = "\tpublic override void SerializeFields(){\r\n\t\tstring s;\r\n";
 			foreach(string s in _serialized){
 				ret += string.Format("\t\to = {0}_obj;\r\n", s);
@@ -418,7 +386,7 @@ public class CodeStringGenerator
 
 			//reset used fileds
 			_serialized.Clear();
-			return string.Format("{0}\r\n\t}} \r\n {1} \r\n\t}}", ret, ret1);
+			return string.Format("{0}\t}} \r\n {1}\t}}", ret, ret1);
 		}		
 		return "";
 	}
@@ -435,6 +403,15 @@ public class CodeStringGenerator
 		
 		string suffix = "_dump_xml";
 		string fName = _code.Escape(edmProperty);
+
+		// make private name
+		string fPrivateName = Char.ToLowerInvariant(fName[0]) + fName.Substring(1);
+		if(fPrivateName[0] ==  '@'){
+			fPrivateName = "@_" + fPrivateName.Substring(1);
+		}else{
+			fPrivateName = "_" + fPrivateName;
+		}
+
 		if(fName.EndsWith(suffix)){
 			string fType = _typeMapper.GetTypeName(edmProperty.TypeUsage);
 
@@ -442,6 +419,13 @@ public class CodeStringGenerator
 				return string.Format("Field {0} must be a string!", fName);
 			}
 			string brotherName = fName + "_obj";
+
+			string fPrivateBName = Char.ToLowerInvariant(brotherName[0]) + brotherName.Substring(1);
+			if(fPrivateBName[0] ==  '@'){
+				fPrivateBName = "@_" + fPrivateBName.Substring(1);
+			}else{
+				fPrivateBName = "_" + fPrivateBName;
+			}
 
 			//save for later
 			_serialized.Add(fName);
@@ -465,13 +449,14 @@ public class CodeStringGenerator
 			Accessibility.ForProperty(edmProperty),
 			fType,
 			fName,
-			"_" + Char.ToLowerInvariant(fName[0]) + fName.Substring(1),
+			fPrivateName,
 			_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
 			_code.SpaceAfter(Accessibility.ForSetter(edmProperty)),
-			"_" + Char.ToLowerInvariant(brotherName[0]) + brotherName.Substring(1),
+			fPrivateBName,
 			brotherName
 			);
 		}else{
+			
 			return string.Format(
 			CultureInfo.InvariantCulture,
 			"private {1} {3};\r\n"+
@@ -482,8 +467,8 @@ public class CodeStringGenerator
 			"\t}}\r\n",
 			Accessibility.ForProperty(edmProperty),
 			_typeMapper.GetTypeName(edmProperty.TypeUsage),
-			_code.Escape(edmProperty),
-			"_" + Char.ToLowerInvariant(_code.Escape(edmProperty)[0]) + _code.Escape(edmProperty).Substring(1),
+			fName,
+			fPrivateName,
 			_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
 			_code.SpaceAfter(Accessibility.ForSetter(edmProperty)));
 		}		
@@ -560,7 +545,7 @@ public class CodeStringGenerator
     {
          return string.Format(
 			CultureInfo.InvariantCulture,
-			"{0} {1}partial class {2}{3}",
+			"\r\n{0} {1}partial class {2}{3}",
 			Accessibility.ForType(entity),
 			_code.SpaceAfter(_code.AbstractOption(entity)),
 			_code.Escape(entity),
@@ -687,7 +672,7 @@ public class CodeStringGenerator
 				"using xwcs.core.db;\r\n"+
 				"using xwcs.core.db.binding.attributes;\r\n"+
 				"using xwcs.core.db.model.attributes;{2}",
-                inHeader ? Environment.NewLine : "",
+                inHeader ? Environment.NewLine : "\t",
                 includeCollections ? (Environment.NewLine + "using System.Collections.Generic;") : "",
                 inHeader ? "" : Environment.NewLine)
             : "";
@@ -996,5 +981,15 @@ public static void ArgumentNotNull<T>(T arg, string name) where T : class
     {
         throw new ArgumentNullException(name);
     }
+}
+
+
+public class Variables{
+	public const string solutionDir = @"C:\Projekty\xwcs\xwcs.vsix\";
+	public const string rootname = @"ModelIter2.tt";
+	public const string safeitemname = @"ModelIter2";
+	public const string rootnamespace = @"Test.db.Iter";
+	public const string genTime = @"07/04/2016 12:09:23";
+	public const string genUserName = @"Laco";
 }
 #>

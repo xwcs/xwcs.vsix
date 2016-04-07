@@ -7,7 +7,7 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class SimpleFixTrigger : TriggerBase {
-		public SimpleFixTrigger(StateMachine machine) : base (machine) {}
+		public SimpleFixTrigger(StateMachine machine) : base (machine, "SimpleFixTrigger") {}
 	}	
 
 }

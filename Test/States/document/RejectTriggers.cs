@@ -7,7 +7,7 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class RejectTrigger : TriggerBase {
-		public RejectTrigger(StateMachine machine) : base (machine) {}
+		public RejectTrigger(StateMachine machine) : base (machine, "RejectTrigger") {}
 	}	
 
 }

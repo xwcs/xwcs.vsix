@@ -7,7 +7,7 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class RevertTrigger : TriggerBase {
-		public RevertTrigger(StateMachine machine) : base (machine) {}
+		public RevertTrigger(StateMachine machine) : base (machine, "RevertTrigger") {}
 	}	
 
 }

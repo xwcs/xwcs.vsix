@@ -7,7 +7,7 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class SaveTrigger : TriggerBase {
-		public SaveTrigger(StateMachine machine) : base (machine) {}
+		public SaveTrigger(StateMachine machine) : base (machine, "SaveTrigger") {}
 	}	
 
 }

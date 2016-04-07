@@ -7,7 +7,7 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class ValidateTrigger : TriggerBase {
-		public ValidateTrigger(StateMachine machine) : base (machine) {}
+		public ValidateTrigger(StateMachine machine) : base (machine, "ValidateTrigger") {}
 	}	
 
 }

@@ -9,7 +9,18 @@ namespace Test.States.document { // StateMachineNamespace
 	public class DocumentStateTestForm : xwcs.core.statemachine.test.TestFormBase {
 		protected override StateMachine CreateMachine()
 		{
-			return new DocumentState(this);
+			StateMachine sm = new DocumentState(this); 
+
+
+		
+			(sm as DocumentState).RecordRejected += (s, e) => { Log("Effect : RecordRejected called.");};
+
+		
+			(sm as DocumentState).NotifyValidators += (s, e) => { Log("Effect : NotifyValidators called.");};
+
+	
+		
+			return sm;
 		}
 	}	
 

@@ -8,7 +8,7 @@
         <EntityTypeShape EntityType="db.ef.niter.labels" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="db.ef.niter.tipolabel" Width="1.5" PointX="3.625" PointY="1.375" />
         <AssociationConnector Association="db.ef.niter.fk_labels_labelTypes1" />
-        <EntityTypeShape EntityType="db.ef.niter.log" Width="1.5" PointX="3.375" PointY="3.75" />
+        <EntityTypeShape EntityType="db.ef.niter.log" Width="1.5" PointX="1.75" PointY="3.625" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

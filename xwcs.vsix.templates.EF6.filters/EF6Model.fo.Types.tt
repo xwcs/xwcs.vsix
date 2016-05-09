@@ -457,8 +457,9 @@ public class CodeStringGenerator
 			fPrivateName = "_" + fPrivateName;
 		}
 
+		
 		if(fName.EndsWith(suffix)){
-			string fType = _typeMapper.GetTypeName(edmProperty.TypeUsage);
+			string fType = _typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null);
 
 			if(fType != "string"){
 				return string.Format("Field {0} must be a string!", fName);
@@ -511,7 +512,7 @@ public class CodeStringGenerator
 				"\t\t{5}set {{ SetProperty(ref {3}, value); }} \r\n" + 
 			"\t}}\r\n",
 			Accessibility.ForProperty(edmProperty),
-			_typeMapper.GetTypeName(edmProperty.TypeUsage),
+			_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null),
 			fName,
 			fPrivateName,
 			_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
@@ -539,7 +540,7 @@ public class CodeStringGenerator
 				"[Display({7})]\r\n"+
 				"\t{0} object {8} {{ {3}get; {4}set;}}\r\n",
 				Accessibility.ForProperty(edmProperty),
-				_typeMapper.GetTypeName(edmProperty.TypeUsage),
+				_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null),
 				_code.Escape(edmProperty),
 				_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
 				_code.SpaceAfter(Accessibility.ForSetter(edmProperty)),
@@ -555,9 +556,9 @@ public class CodeStringGenerator
 				CultureInfo.InvariantCulture,
 				"[Display({5}{6})]\r\n"+
 				"{7}"+ 
-				"\t{0} {1} {2} {{ {3}get; {4}set;}}\r\n",
+				"\t{0} {1} {2} {{ {3}get; {4}set;}}\r\n", 
 				Accessibility.ForProperty(edmProperty),
-				_typeMapper.GetTypeName(edmProperty.TypeUsage),
+				_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null),
 				_code.Escape(edmProperty),
 				_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
 				_code.SpaceAfter(Accessibility.ForSetter(edmProperty)),
@@ -589,12 +590,12 @@ public class CodeStringGenerator
     public string EntityClassOpening(EntityType entity, bool serialized = false)
     {
          return string.Format(
-			CultureInfo.InvariantCulture,
+			CultureInfo.InvariantCulture, 
 			"{0} {1}partial class {2}{3}",
 			Accessibility.ForType(entity),
 			_code.SpaceAfter(_code.AbstractOption(entity)),
 			_code.Escape(entity),
-			_code.StringBefore(" : ", string.IsNullOrEmpty(_typeMapper.GetTypeName(entity.BaseType)) ? (serialized ? "Serialized" : "" ) + "EntityBase" : _typeMapper.GetTypeName(entity.BaseType)));
+			_code.StringBefore(" : ", string.IsNullOrEmpty(_typeMapper.GetTypeName(entity.BaseType)) ? (serialized ? "Serialized" : "" ) + "FilterObjectbase" : _typeMapper.GetTypeName(entity.BaseType)));
     }
 	
 	public string EntityClassOpeningMeta(EntityType entity) 
@@ -805,7 +806,7 @@ public class TypeMapper
             typeName = FixNamespaces(typeName);
 
             return clrType.IsValueType && isNullable == true ?
-                String.Format(CultureInfo.InvariantCulture, "Nullable<{0}>", typeName) :
+                String.Format(CultureInfo.InvariantCulture, "{0}?", typeName) :
                 typeName;
         }
 

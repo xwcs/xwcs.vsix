@@ -16,6 +16,16 @@ namespace Test
 	public partial class Form3 : Form
 	{
 
+		[XmlRoot("field")]
+		public class field_data<T>
+		{
+			[XmlElement("value")]
+			public T value;
+			[XmlElement("condition")]
+			public string condition;
+		}
+
+
 		[XmlRoot("data", Namespace = "http://schemas.microsoft.com/developer/vstemplate/2005")]
 		public class WizardData
 		{
@@ -177,9 +187,44 @@ namespace Test
 		}
 
 
+		private string GetStringData<T>(field_data<T>  d)
+		{
+			string valXml;
+			using (StringWriter sw1 = new StringWriter())
+			{
+				XmlWriterSettings settings = new XmlWriterSettings();
+				settings.Indent = false;
+				settings.OmitXmlDeclaration = true;
+				settings.Encoding = Encoding.UTF8;
+				XmlSerializerNamespaces nss = new XmlSerializerNamespaces();
+				nss.Add("", "");
+
+				XmlWriter writer = XmlWriter.Create(sw1, settings);
+				
+				XmlSerializer s = new XmlSerializer(d.GetType());
+				s.Serialize(writer, d, nss);
+
+				valXml = sw1.ToString();
+
+				XmlSerializer ss = new XmlSerializer(d.GetType());
+				using (XmlReader reader = XmlReader.Create(new StringReader(valXml)))
+				{
+					object ooo = ss.Deserialize(reader);
+				}
+			}
+			return valXml;
+		}
+
+
+
 		public Form3()
 		{
 			InitializeComponent();
+
+			field_data<int> ff = new field_data<int> { condition = "aaaaa", value = 10 };
+			string srt = GetStringData(ff);
+
+
 
 			string testXml = "<data xmlns=\"http://schemas.microsoft.com/developer/vstemplate/2005\"><kind>EDMX</kind></data>";
 
@@ -260,9 +305,7 @@ namespace Test
 				s.Serialize(writer, obj, ns);
 
 				string ret = sw.ToString();
-			}
-
-			
+			}	
 
 		}
 	}

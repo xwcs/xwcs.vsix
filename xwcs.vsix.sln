@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xwcs.vsix.templates.EF6", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xwcs.vsix.templates.StateMachine", "xwcs.vsix.templates.StateMachine\xwcs.vsix.templates.StateMachine.csproj", "{F34CB1AA-678F-4BA2-8591-9E1F84E7A29C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xwcs.vsix.templates.EF6.filters", "xwcs.vsix.templates.EF6.filters\xwcs.vsix.templates.EF6.filters.csproj", "{B1B5D871-3F27-4F12-80AE-92699F7FCE75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,14 @@ Global
 		{F34CB1AA-678F-4BA2-8591-9E1F84E7A29C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F34CB1AA-678F-4BA2-8591-9E1F84E7A29C}.Release|x86.ActiveCfg = Release|Any CPU
 		{F34CB1AA-678F-4BA2-8591-9E1F84E7A29C}.Release|x86.Build.0 = Release|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Debug|x86.Build.0 = Debug|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1B5D871-3F27-4F12-80AE-92699F7FCE75}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -368,7 +368,7 @@ StateGraph sg = new StateGraph(path) ;
 
 <#= Footer #>
 
-<# manager.StartNewFile(machineName+"Tester.cs") ;
+<# manager.StartNewFile(machineName+"TestForm.cs") ;
 #>
 <#= Header #>
 	public class <#= machineName + "TestForm"  #> : xwcs.core.statemachine.test.TestFormBase {
@@ -594,11 +594,11 @@ public class condition {
 }
 
 public class Variables{
-	public const string solutionDir = @"C:\Projekty\xwcs\xwcs.vsix\";
+	public const string solutionDir = @"C:\xwee\gitRepos\xwcs.vsix\";
 	public const string rootname = @"Machine1.tt";
 	public const string safeitemname = @"Machine1";
 	public const string rootnamespace = @"Test.States.document";
-	public const string genTime = @"07/04/2016 14:33:23";
-	public const string genUserName = @"Laco";
+	public const string genTime = @"4/7/2016 4:21:44 PM";
+	public const string genUserName = @"rtirabassi";
 }
  #>

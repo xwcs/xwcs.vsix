@@ -174,9 +174,10 @@ namespace Test
 
 	public partial class bab_view_data
 	{
-		[Key]
+		
 		[Display(Name = "n° Doc")]
 		public int ndoc { get; set; }
+		[Key]
 		[Display(Name = "Id")]
 		public int id { get; set; }
 		[Display(Name = "Random")]

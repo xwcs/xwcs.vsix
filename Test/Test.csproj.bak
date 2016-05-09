@@ -35,14 +35,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraBars.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -89,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="attrs.cs" />
+    <Compile Include="ban.cs">
+      <DependentUpon>Modelxxxx.tt</DependentUpon>
+    </Compile>
     <Compile Include="db\Iter\labels.cs">
       <DependentUpon>ModelIter2.tt</DependentUpon>
     </Compile>
@@ -197,23 +200,23 @@
     <Compile Include="Form6.Designer.cs">
       <DependentUpon>Form6.cs</DependentUpon>
     </Compile>
-    <Compile Include="Modelxxx.Context.cs">
+    <Compile Include="Modelxxxx.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Modelxxx.Context.tt</DependentUpon>
+      <DependentUpon>Modelxxxx.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Modelxxx.cs">
+    <Compile Include="Modelxxxx.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Modelxxx.tt</DependentUpon>
+      <DependentUpon>Modelxxxx.tt</DependentUpon>
     </Compile>
-    <Compile Include="Modelxxxx1.Designer.cs">
+    <Compile Include="Modelxxxx.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Modelxxxx.edmx</DependentUpon>
     </Compile>
     <Compile Include="names.cs">
-      <DependentUpon>Modelxxx.tt</DependentUpon>
+      <DependentUpon>Modelxxxx.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -389,7 +392,7 @@
     </None>
     <EntityDeploy Include="Modelxxxx.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Modelxxxx1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Modelxxxx.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="Modelxxxx.edmx.diagram">
       <DependentUpon>Modelxxxx.edmx</DependentUpon>
@@ -434,15 +437,15 @@
       <LastGenOutput>Model1.cs</LastGenOutput>
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <Content Include="Modelxxx.Context.tt">
+    <Content Include="Modelxxxx.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Modelxxx.Context.cs</LastGenOutput>
       <DependentUpon>Modelxxxx.edmx</DependentUpon>
+      <LastGenOutput>Modelxxxx.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Modelxxx.tt">
+    <Content Include="Modelxxxx.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Modelxxx.cs</LastGenOutput>
       <DependentUpon>Modelxxxx.edmx</DependentUpon>
+      <LastGenOutput>Modelxxxx.cs</LastGenOutput>
     </Content>
     <Content Include="States\document\Machine1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

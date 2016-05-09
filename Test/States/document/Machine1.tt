@@ -12,6 +12,7 @@
 <#@ import namespace="System.Collections.Generic" #> 
 
 <#
+//const string inputFile = @"$ InputFile $"; 
 const string inputFile = @"DocumentStates.tastate"; 
 
 
@@ -74,17 +75,15 @@ StateGraph sg = new StateGraph(path) ;
 #>
 <#= Header #>
 	public partial class <#= guardName #>Guard {
-        public override void Execute()
+        public override bool Execute()
         {
             // Will throw a GuardException when condition goes wrong
 			// Check <#= guardName #>
 			var confirmResult =  MessageBox.Show("Please confirm that condition '<#= guardName #>' is valid",
                                     "Confirm Status Change",
                                     MessageBoxButtons.YesNo);
-			if (confirmResult != DialogResult.Yes) {
-				throw new GuardException(-1, "Condition '<#= guardName #>' not valid") ;
-			}
-            return;
+
+			return (confirmResult == DialogResult.Yes) ;
         }
 	}
 <#= Footer #>
@@ -107,7 +106,7 @@ StateGraph sg = new StateGraph(path) ;
 	XmlElement root = sg.doc.DocumentElement;
 	nsmgr.AddNamespace("x", root.NamespaceURI);
 	// XmlNodeList stateList = root.SelectNodes("//x:flowElements/x:state", nsmgr) ;
-	XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='startPoint' or name()='state' or name()='endPoint']", nsmgr) ;
+	XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='startPoint' or name()='state' or name()='conditionState' or name()='endPoint']", nsmgr) ;
 	foreach(XmlElement state in stateList)
     {
 		// find all entry and exit actions
@@ -116,7 +115,13 @@ StateGraph sg = new StateGraph(path) ;
 
 #><# manager.StartNewFile(state.Attributes["name"].InnerXml+"State.cs") ;
 #><#= Header
-#>	public partial class <#= state.Attributes["name"].InnerXml #>State : StateBase 
+#>	public partial class <#= state.Attributes["name"].InnerXml #>State : <#		
+		if ( "conditionState" == state.Name ) {
+#>ConditionStateBase<#		
+        }
+		else {
+#>StateBase<#		
+        }#>
 	{ 
 		public <#= state.Attributes["name"].InnerXml #>State(StateMachine machine) : base(machine, "<#= state.Attributes["name"].InnerXml #>") { }
 
@@ -411,6 +416,9 @@ StateGraph sg = new StateGraph(path) ;
 		// Bring out the guard name and add the trigger if new
 		XmlNode theNode = e.SelectSingleNode("./x:stateMoniker", nsmgr) ;
 		if ( theNode == null ) {
+			theNode = e.SelectSingleNode("./x:conditionStateMoniker", nsmgr) ;
+        }
+		if ( theNode == null ) {
 			theNode = e.SelectSingleNode("./x:endPointMoniker", nsmgr) ;
         }
 		return new List<string>(theNode.Attributes["name"].InnerXml.Split('/')) ;
@@ -425,13 +433,17 @@ StateGraph sg = new StateGraph(path) ;
 		XmlNamespaceManager nsmgr = new XmlNamespaceManager(sg.doc.NameTable);
 		XmlElement root = sg.doc.DocumentElement;
 		nsmgr.AddNamespace("x", root.NamespaceURI);
-		XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='state' or name()='endPoint']", nsmgr) ;
+		XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='state' or name()='conditionState' or name()='endPoint']", nsmgr) ;
 		// iterate all states
 		foreach(XmlNode s in stateList)
         {
 			// get all flows where s is the start point
 			// XmlNodeList flowToList = s.SelectNodes("./x:flowTo/x:flow", nsmgr) ;
 			string condition = "//x:flowElements/*/x:flowTo/x:flow[x:stateMoniker/@name='/" ;
+			condition += sg.Name ;
+			condition += "/" ;
+			condition += s.Attributes["name"].InnerXml ;
+			condition += "' or x:conditionStateMoniker/@name='/" ;
 			condition += sg.Name ;
 			condition += "/" ;
 			condition += s.Attributes["name"].InnerXml ;
@@ -464,13 +476,17 @@ StateGraph sg = new StateGraph(path) ;
 		XmlNamespaceManager nsmgr = new XmlNamespaceManager(sg.doc.NameTable);
 		XmlElement root = sg.doc.DocumentElement;
 		nsmgr.AddNamespace("x", root.NamespaceURI);
-		XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='state' or name()='endPoint']", nsmgr) ;
+		XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='state' or name()='conditionState' or name()='endPoint']", nsmgr) ;
 		// iterate all states
 		foreach(XmlNode s in stateList)
         {
 			// get all flows where s is the start point
 			// XmlNodeList flowToList = s.SelectNodes("./x:flowTo/x:flow", nsmgr) ;
 			string condition = "//x:flowElements/*/x:flowTo/x:flow[x:stateMoniker/@name='/" ;
+			condition += sg.Name ;
+			condition += "/" ;
+			condition += s.Attributes["name"].InnerXml ;
+			condition += "' or x:conditionStateMoniker/@name='/" ;
 			condition += sg.Name ;
 			condition += "/" ;
 			condition += s.Attributes["name"].InnerXml ;
@@ -539,7 +555,7 @@ StateGraph sg = new StateGraph(path) ;
 		XmlNamespaceManager nsmgr = new XmlNamespaceManager(sg.doc.NameTable);
 		XmlElement root = sg.doc.DocumentElement;
 		nsmgr.AddNamespace("x", root.NamespaceURI);
-		XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='state' or name()='endPoint']", nsmgr) ;
+		XmlNodeList stateList = root.SelectNodes("//x:flowElements/*[name()='state' or name()='conditionState' or name()='endPoint']", nsmgr) ;
 		// iterate all states
 		foreach(XmlNode s in stateList)
         {
@@ -594,11 +610,16 @@ public class condition {
 }
 
 public class Variables{
-	public const string solutionDir = @"C:\xwee\gitRepos\xwcs.vsix\";
+//	public const string solutionDir = @"$ solutiondirectory $";
+	public const string solutionDir = @"C:\Projekty\xwcs\xwcs.vsix\";
+//	public const string rootname = @"$ rootname $";
 	public const string rootname = @"Machine1.tt";
+//	public const string safeitemname = @"$ safeitemname $";
 	public const string safeitemname = @"Machine1";
+//	public const string rootnamespace = @"$ rootnamespace $";
 	public const string rootnamespace = @"Test.States.document";
-	public const string genTime = @"4/7/2016 4:21:44 PM";
-	public const string genUserName = @"rtirabassi";
-}
+//	public const string genTime = @"$ time $";
+	public const string genTime = @"09/05/2016 09:46:45";
+//	public const string genUserName = @"$ username $";}
+	public const string genUserName = @"Laco";}
  #>

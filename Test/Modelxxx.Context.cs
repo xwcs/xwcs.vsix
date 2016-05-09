@@ -26,6 +26,5 @@ namespace Test
         }
     
         public virtual DbSet<names> names { get; set; }
-        public virtual DbSet<ban> ban { get; set; }
     }
 }

@@ -7,17 +7,15 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class DupIsErasedGuard {
-        public override void Execute()
+        public override bool Execute()
         {
             // Will throw a GuardException when condition goes wrong
 			// Check DupIsErased
 			var confirmResult =  MessageBox.Show("Please confirm that condition 'DupIsErased' is valid",
                                     "Confirm Status Change",
                                     MessageBoxButtons.YesNo);
-			if (confirmResult != DialogResult.Yes) {
-				throw new GuardException(-1, "Condition 'DupIsErased' not valid") ;
-			}
-            return;
+
+			return (confirmResult == DialogResult.Yes) ;
         }
 	}
 

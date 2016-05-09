@@ -246,10 +246,6 @@
 			this.entityInstantFeedbackSource1.DesignTimeElementType = typeof(Test.bab_view_data);
 			this.entityInstantFeedbackSource1.KeyExpression = "id";
 			// 
-			// bindingSource1
-			// 
-			this.bindingSource1.DataSource = typeof(Test.db.model1.bab);
-			// 
 			// Form1
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

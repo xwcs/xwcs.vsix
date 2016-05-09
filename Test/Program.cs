@@ -17,7 +17,7 @@ namespace Test
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			//Application.Run(new States.document.DocumentStateTestForm());
-			Application.Run(new Form2());
+			Application.Run(new Form4());
 		}
 	}
 }

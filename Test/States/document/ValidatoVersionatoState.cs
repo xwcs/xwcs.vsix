@@ -5,8 +5,7 @@ using System.Windows.Forms;
 using xwcs.core.statemachine;
 
 namespace Test.States.document { // StateMachineNamespace
-	public partial class ValidatoVersionatoState : StateBase 
-	{ 
+	public partial class ValidatoVersionatoState : StateBase	{ 
 		public ValidatoVersionatoState(StateMachine machine) : base(machine, "ValidatoVersionato") { }
 
         /// <summary>

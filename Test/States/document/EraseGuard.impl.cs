@@ -7,17 +7,15 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class EraseGuard {
-        public override void Execute()
+        public override bool Execute()
         {
             // Will throw a GuardException when condition goes wrong
 			// Check Erase
 			var confirmResult =  MessageBox.Show("Please confirm that condition 'Erase' is valid",
                                     "Confirm Status Change",
                                     MessageBoxButtons.YesNo);
-			if (confirmResult != DialogResult.Yes) {
-				throw new GuardException(-1, "Condition 'Erase' not valid") ;
-			}
-            return;
+
+			return (confirmResult == DialogResult.Yes) ;
         }
 	}
 

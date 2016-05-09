@@ -80,6 +80,22 @@ namespace Test.db.model1
     		set { SetProperty(ref _dxp, value); } 
     	}
     
+        private string _content_dump_xml;
+    	public string content_dump_xml 
+    	{ 
+    		get { return SerializeAndGet(_content_dump_xml_obj, ref _content_dump_xml); } 
+    		set { SetProperty(ref _content_dump_xml, value); } 
+    	}
+    
+    	private object _content_dump_xml_obj = null;
+    	[NotMapped]
+    	[Mutable]
+    	public object content_dump_xml_obj 
+    	{ 
+    		get { return GetOrDeserialize(_content_dump_xml, "content_dump_xml", ref _content_dump_xml_obj); } 
+    		set { SetProperty(ref _content_dump_xml_obj, value); } 
+    	}
+    
         private int _ndoc;
     	public int ndoc 
     	{ 
@@ -99,22 +115,6 @@ namespace Test.db.model1
     	{ 
     		get { return _extra; } 
     		set { SetProperty(ref _extra, value); } 
-    	}
-    
-        private string _content_dump_xml;
-    	public string content_dump_xml 
-    	{ 
-    		get { return SerializeAndGet(_content_dump_xml_obj, ref _content_dump_xml); } 
-    		set { SetProperty(ref _content_dump_xml, value); } 
-    	}
-    
-    	private object _content_dump_xml_obj = null;
-    	[NotMapped]
-    	[Mutable]
-    	public object content_dump_xml_obj 
-    	{ 
-    		get { return GetOrDeserialize(_content_dump_xml, "content_dump_xml", ref _content_dump_xml_obj); } 
-    		set { SetProperty(ref _content_dump_xml_obj, value); } 
     	}
     
     	public override void DeserializeFields(){

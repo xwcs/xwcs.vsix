@@ -5,8 +5,7 @@ using System.Windows.Forms;
 using xwcs.core.statemachine;
 
 namespace Test.States.document { // StateMachineNamespace
-	public partial class PubblicatoState : StateBase 
-	{ 
+	public partial class PubblicatoState : StateBase	{ 
 		public PubblicatoState(StateMachine machine) : base(machine, "Pubblicato") { }
 
         /// <summary>

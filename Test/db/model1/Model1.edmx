@@ -111,20 +111,20 @@
           <Property Name="rpa" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="cc" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="dxp" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="content_dump_xml" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="ndoc" Type="Int32" Nullable="false" />
           <Property Name="xml" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="extra" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="bab_local" Relationship="test1Model.bab_localbab" FromRole="bab" ToRole="bab_local" />
-          <Property Name="content_dump_xml" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="bab_localbab">
           <End Type="test1Model.bab_local" Role="bab_local" Multiplicity="1" />
           <End Type="test1Model.bab" Role="bab" Multiplicity="1" />
           <ReferentialConstraint>
-            <Principal Role="bab_local">
+            <Principal Role="bab">
               <PropertyRef Name="id" />
             </Principal>
-            <Dependent Role="bab">
+            <Dependent Role="bab_local">
               <PropertyRef Name="id" />
             </Dependent>
           </ReferentialConstraint>
@@ -170,10 +170,10 @@
           <EntitySetMapping Name="bab">
             <EntityTypeMapping TypeName="test1Model.bab">
               <MappingFragment StoreEntitySet="bab">
-                <ScalarProperty Name="content_dump_xml" ColumnName="content_dump_xml" />
                 <ScalarProperty Name="extra" ColumnName="extra" />
                 <ScalarProperty Name="xml" ColumnName="xml" />
                 <ScalarProperty Name="ndoc" ColumnName="ndoc" />
+                <ScalarProperty Name="content_dump_xml" ColumnName="content_dump_xml" />
                 <ScalarProperty Name="dxp" ColumnName="dxp" />
                 <ScalarProperty Name="cc" ColumnName="cc" />
                 <ScalarProperty Name="rpa" ColumnName="rpa" />

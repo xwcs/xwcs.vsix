@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
 	<Metadata>
-		<Identity Id="xwcs.vsix.templates.Ladislav Sopko.379c312a-f8d5-49b8-8b01-ade081e6219a" Version="1.0" Language="en-US" Publisher="Ladislav Sopko" />
+		<Identity Id="xwcs.vsix.templates.Ladislav Sopko.379c312a-f8d5-49b8-8b01-ade081e6219a" Version="1.1" Language="en-US" Publisher="Ladislav Sopko" />
 		<DisplayName>xwcs.vsix.templates</DisplayName>
 		<Description xml:space="preserve">3D T4 templates</Description>
 		<Icon>EF6.Custom.Entities.ico</Icon>

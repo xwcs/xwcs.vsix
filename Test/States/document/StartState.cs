@@ -5,8 +5,7 @@ using System.Windows.Forms;
 using xwcs.core.statemachine;
 
 namespace Test.States.document { // StateMachineNamespace
-	public partial class StartState : StateBase 
-	{ 
+	public partial class StartState : StateBase	{ 
 		public StartState(StateMachine machine) : base(machine, "Start") { }
 
         /// <summary>

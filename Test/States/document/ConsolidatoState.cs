@@ -5,8 +5,7 @@ using System.Windows.Forms;
 using xwcs.core.statemachine;
 
 namespace Test.States.document { // StateMachineNamespace
-	public partial class ConsolidatoState : StateBase 
-	{ 
+	public partial class ConsolidatoState : StateBase	{ 
 		public ConsolidatoState(StateMachine machine) : base(machine, "Consolidato") { }
 
         /// <summary>

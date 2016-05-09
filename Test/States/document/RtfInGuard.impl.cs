@@ -7,17 +7,15 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class RtfInGuard {
-        public override void Execute()
+        public override bool Execute()
         {
             // Will throw a GuardException when condition goes wrong
 			// Check RtfIn
 			var confirmResult =  MessageBox.Show("Please confirm that condition 'RtfIn' is valid",
                                     "Confirm Status Change",
                                     MessageBoxButtons.YesNo);
-			if (confirmResult != DialogResult.Yes) {
-				throw new GuardException(-1, "Condition 'RtfIn' not valid") ;
-			}
-            return;
+
+			return (confirmResult == DialogResult.Yes) ;
         }
 	}
 

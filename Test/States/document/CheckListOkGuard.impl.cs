@@ -7,17 +7,15 @@ using xwcs.core.statemachine;
 namespace Test.States.document { // StateMachineNamespace
 
 	public partial class CheckListOkGuard {
-        public override void Execute()
+        public override bool Execute()
         {
             // Will throw a GuardException when condition goes wrong
 			// Check CheckListOk
 			var confirmResult =  MessageBox.Show("Please confirm that condition 'CheckListOk' is valid",
                                     "Confirm Status Change",
                                     MessageBoxButtons.YesNo);
-			if (confirmResult != DialogResult.Yes) {
-				throw new GuardException(-1, "Condition 'CheckListOk' not valid") ;
-			}
-            return;
+
+			return (confirmResult == DialogResult.Yes) ;
         }
 	}
 

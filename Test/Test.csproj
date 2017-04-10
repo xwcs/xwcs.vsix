@@ -35,14 +35,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Data.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Printing.v15.2.Core, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.Utils.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraBars.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraEditors.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
-    <Reference Include="DevExpress.XtraGrid.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraLayout.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.XtraPrinting.v15.2, Version=15.2.9.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Data.v16.2, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Pdf.v16.2.Core, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Printing.v16.2.Core, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Utils.v16.2, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraBars.v16.2, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraEditors.v16.2, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraGrid.v16.2, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraLayout.v16.2, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraPrinting.v16.2, Version=16.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -63,18 +64,17 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <HintPath>..\packages\MySql.Data.Entity.6.9.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -121,6 +121,45 @@
     </Compile>
     <Compile Include="db\Iter\tipolabel.meta.cs">
       <DependentUpon>ModelIter2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\iter.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\iter.meta.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\iter_in_opere.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\iter_in_opere.meta.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\Iter_new.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Iter_new.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\Iter_new.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\iter_new.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>iter_new.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\opere.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\opere.meta.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\tipologie.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
+    </Compile>
+    <Compile Include="db\iter_new\tipologie.meta.cs">
+      <DependentUpon>Iter_new.tt</DependentUpon>
     </Compile>
     <Compile Include="db\model1\bab.cs">
       <DependentUpon>Model1.tt</DependentUpon>
@@ -196,6 +235,18 @@
     </Compile>
     <Compile Include="Form6.Designer.cs">
       <DependentUpon>Form6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form7.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form7.Designer.cs">
+      <DependentUpon>Form7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form8.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form8.Designer.cs">
+      <DependentUpon>Form8.cs</DependentUpon>
     </Compile>
     <Compile Include="Modelxxx.Context.cs">
       <AutoGen>True</AutoGen>
@@ -358,6 +409,12 @@
     <EmbeddedResource Include="Form6.resx">
       <DependentUpon>Form6.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form7.resx">
+      <DependentUpon>Form7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form8.resx">
+      <DependentUpon>Form8.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -383,6 +440,13 @@
     </EntityDeploy>
     <None Include="db\Iter\ModelIter2.edmx.diagram">
       <DependentUpon>ModelIter2.edmx</DependentUpon>
+    </None>
+    <EntityDeploy Include="db\iter_new\iter_new.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>iter_new.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="db\iter_new\iter_new.edmx.diagram">
+      <DependentUpon>iter_new.edmx</DependentUpon>
     </None>
     <None Include="db\model1\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
@@ -423,6 +487,14 @@
     <Content Include="db\Iter\ModelIter2.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>ModelIter2.cs</LastGenOutput>
+    </Content>
+    <Content Include="db\iter_new\Iter_new.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Iter_new.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="db\iter_new\Iter_new.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Iter_new.cs</LastGenOutput>
     </Content>
     <Content Include="db\model1\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

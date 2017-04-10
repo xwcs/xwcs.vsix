@@ -2,14 +2,14 @@
 <#@ include file="EF6.Utility.CS.ttinclude"#>
 <#@ output extension=".cs"#>
 <#
-const string inputFile = @"$InputFile$"; 
+const string inputFile = @"iter_new.edmx"; 
 var textTransform = DynamicTextTransformation.Create(this);
 var code = new CodeGenerationTools(this);
-var ef = new MetadataTools(this); 
+var ef = new MetadataTools(this);
 var typeMapper = new TypeMapper(code, ef, textTransform.Errors);
 var	fileManager = EntityFrameworkTemplateFileManager.Create(this);
 var itemCollection = new EdmMetadataLoader(textTransform.Host, textTransform.Errors).CreateEdmItemCollection(inputFile);
-var codeStringGenerator = new CodeStringGenerator(code, typeMapper, ef); 
+var codeStringGenerator = new CodeStringGenerator(code, typeMapper, ef);
 
 if (!typeMapper.VerifyCaseInsensitiveTypeUniqueness(typeMapper.GetAllGlobalItems(itemCollection), inputFile))
 {
@@ -29,13 +29,12 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
     {
 		string fName = code.Escape(edmProperty);	
 		if(fName.EndsWith("_dump_xml")){
-			++serializedCount; 
+			++serializedCount;
 		}
     }
 
 #>
 <#=codeStringGenerator.UsingDirectives(inHeader: false)#>
-[DataContract]
 <#=
 codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)
 #>
@@ -44,8 +43,7 @@ codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)
     var propertiesWithDefaultValues = typeMapper.GetPropertiesWithDefaultValues(entity);
     var collectionNavigationProperties = typeMapper.GetCollectionNavigationProperties(entity);
     var complexProperties = typeMapper.GetComplexProperties(entity);
-	var simpleProperties = typeMapper.GetSimpleProperties(entity);
-	var navigationProperties = typeMapper.GetNavigationProperties(entity);
+	
 
 	//we need default ctr anyway
     //if (propertiesWithDefaultValues.Any() || collectionNavigationProperties.Any() || complexProperties.Any())
@@ -53,49 +51,30 @@ codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)
 	//[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
 #>
 	#region ctors and defaults
-	public <#=code.Escape(entity)#>() : this("", ""){} 
-	public <#=code.Escape(entity)#>(string pn, string fn) : base(pn, fn) 
+
+	public <#=code.Escape(entity)#>() 
 	{
 <#	
-	foreach (var edmProperty in simpleProperties){
-#>
-	<#=codeStringGenerator.PropertyCtor(edmProperty)#>
-<#
-    }
-
 	foreach (var edmProperty in propertiesWithDefaultValues){
 #>
-		<#=code.Escape(edmProperty)#> = <#=typeMapper.CreateLiteral(edmProperty.DefaultValue)#>;
+		this.<#=code.Escape(edmProperty)#> = <#=typeMapper.CreateLiteral(edmProperty.DefaultValue)#>;
 <#
-    } 
+    }
 
     foreach (var navigationProperty in collectionNavigationProperties)
     {
 #>
-		_<#=code.Escape(navigationProperty)#> = new FilterObjectsCollection<<#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>>(GetFullFieldName(), "<#=code.Escape(navigationProperty)#>");
+		this.<#=code.Escape(navigationProperty)#> = new HashSet<<#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>>();
 <#
-    }
-
-	foreach (var navigationProperty in navigationProperties)
-    {
-		if (navigationProperty.ToEndMember.RelationshipMultiplicity != RelationshipMultiplicity.Many)
-        {
-#>
-		_<#=code.Escape(navigationProperty)#> = new <#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>(GetFullFieldName(), "<#=code.Escape(navigationProperty)#>");
-<#
-		}
     }
 
     foreach (var complexProperty in complexProperties)
     {
 #>
-		<#=code.Escape(complexProperty)#> = new <#=typeMapper.GetTypeName(complexProperty.TypeUsage)#>();
+		this.<#=code.Escape(complexProperty)#> = new <#=typeMapper.GetTypeName(complexProperty.TypeUsage)#>();
 <#
     }
 #>
-		
-		// connect nested objects to property changed chians
-		BindToNesteds();
 	}
 	
 <#
@@ -123,6 +102,7 @@ codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)
 	#region properties
 <#
 	// properties
+    var simpleProperties = typeMapper.GetSimpleProperties(entity);
     if (simpleProperties.Any())
     {
         foreach (var edmProperty in simpleProperties)
@@ -147,6 +127,7 @@ codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)
 
 <#=codeStringGenerator.GetSerialization()#>
 <#
+    var navigationProperties = typeMapper.GetNavigationProperties(entity);
     if (navigationProperties.Any())
     {
 #>
@@ -229,7 +210,8 @@ foreach (var entity in typeMapper.GetItemsToGenerate<EntityType>(itemCollection)
 		foreach (var navigationProperty in navigationProperties)
 		{
 #>
-	<#=codeStringGenerator.NavigationPropertyMeta(navigationProperty)#>
+	[Display(AutoGenerateField=false)]
+	<#=codeStringGenerator.NavigationProperty(navigationProperty)#>
 <#
 		}
 #>
@@ -454,7 +436,7 @@ public class CodeStringGenerator
 		return "";
 	}
 
-    public string PropertyCtor(EdmProperty edmProperty)
+    public string Property(EdmProperty edmProperty)
 	{
 		// here we decide what to do
 		// it is not performance wise to use getter as function if we need
@@ -475,48 +457,8 @@ public class CodeStringGenerator
 			fPrivateName = "_" + fPrivateName;
 		}
 
-		
 		if(fName.EndsWith(suffix)){
-			return "";
-		}else if(fName == "rowversion"){			
-			return "";
-		}else{			
-			return string.Format(
-			CultureInfo.InvariantCulture,
-			"\t{2} = new FilterField<{1}>(GetFullFieldName(), \"{3}\");",
-			Accessibility.ForProperty(edmProperty),
-			_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null),
-			fPrivateName,
-			fName);
-		}		
-	}
-
-	
-
-	public string Property(EdmProperty edmProperty)
-	{
-		// here we decide what to do
-		// it is not performance wise to use getter as function if we need
-		// just few fields with effective deserialisation
-		// so we decide convention, all serialized content must have field name
-		// suffix "_dump_xml" example : <field>_dump_xml
-		// so we can apply deserialisation routine just for this field
-		// we will create also its complex brother with more one suffix "_obj"
-		
-		string suffix = "_dump_xml";
-		string fName = _code.Escape(edmProperty);
-
-		// make private name
-		string fPrivateName = Char.ToLowerInvariant(fName[0]) + fName.Substring(1);
-		if(fPrivateName[0] ==  '@'){
-			fPrivateName = "@_" + fPrivateName.Substring(1);
-		}else{
-			fPrivateName = "_" + fPrivateName;
-		}
-
-		
-		if(fName.EndsWith(suffix)){
-			string fType = _typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null);
+			string fType = _typeMapper.GetTypeName(edmProperty.TypeUsage);
 
 			if(fType != "string"){
 				return string.Format("Field {0} must be a string!", fName);
@@ -558,31 +500,22 @@ public class CodeStringGenerator
 			fPrivateBName,
 			brotherName
 			);
-		}else if(fName == "rowversion"){			
-			return "";
-		}else{			
+		}else{
+			
 			return string.Format(
 			CultureInfo.InvariantCulture,
-			"[DataMember]\r\n"+
-			"\tprivate FilterField<{1}> {3};\r\n"+
+			"private {1} {3};\r\n"+
 			"\t{0} {1} {2} \r\n" +
 			"\t{{ \r\n" +
-				"\t\t{4}get {{ return {3}.Value; }} \r\n" +
-				"\t\t{5}set {{ SetField(ref {3}, value); }} \r\n" + 
-			"\t}}\r\n" +
-			"\t[Display(AutoGenerateField=false)]\r\n"+
-			"\t{0} CriteriaOperator {2}_criteria " +
-			"{{ " +
-				"{4}get {{ return {3}.Condition; }} " +
-				"{5}set {{ {3}.Condition = value; }} " + 
-			"}}\r\n",
+				"\t\t{4}get {{ return {3}; }} \r\n" +
+				"\t\t{5}set {{ SetProperty(ref {3}, value); }} \r\n" + 
+			"\t}}\r\n",
 			Accessibility.ForProperty(edmProperty),
-			_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null),
+			_typeMapper.GetTypeName(edmProperty.TypeUsage),
 			fName,
 			fPrivateName,
 			_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
-			_code.SpaceAfter(Accessibility.ForSetter(edmProperty)),
-			_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, false, modelNamespace: null));
+			_code.SpaceAfter(Accessibility.ForSetter(edmProperty)));
 		}		
 	}
 
@@ -606,7 +539,7 @@ public class CodeStringGenerator
 				"[Display({7})]\r\n"+
 				"\t{0} object {8} {{ {3}get; {4}set;}}\r\n",
 				Accessibility.ForProperty(edmProperty),
-				_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null),
+				_typeMapper.GetTypeName(edmProperty.TypeUsage),
 				_code.Escape(edmProperty),
 				_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
 				_code.SpaceAfter(Accessibility.ForSetter(edmProperty)),
@@ -622,9 +555,9 @@ public class CodeStringGenerator
 				CultureInfo.InvariantCulture,
 				"[Display({5}{6})]\r\n"+
 				"{7}"+ 
-				"\t{0} {1} {2} {{ {3}get; {4}set;}}\r\n", 
+				"\t{0} {1} {2} {{ {3}get; {4}set;}}\r\n",
 				Accessibility.ForProperty(edmProperty),
-				_typeMapper.GetTypeName(edmProperty.TypeUsage.EdmType, true, modelNamespace: null),
+				_typeMapper.GetTypeName(edmProperty.TypeUsage),
 				_code.Escape(edmProperty),
 				_code.SpaceAfter(Accessibility.ForGetter(edmProperty)),
 				_code.SpaceAfter(Accessibility.ForSetter(edmProperty)),
@@ -638,87 +571,16 @@ public class CodeStringGenerator
     public string NavigationProperty(NavigationProperty navProp)
     {
         var endType = _typeMapper.GetTypeName(navProp.ToEndMember.GetEntityType());
-		string fName = _code.Escape(navProp);
-
-		string fPrivateName = Char.ToLowerInvariant(fName[0]) + fName.Substring(1);
-		if(fPrivateName[0] ==  '@'){
-			fPrivateName = "@_" + fPrivateName.Substring(1);
-		}else{
-			fPrivateName = "_" + fPrivateName;
-		}
-		
-		if(navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many){
-			return string.Format(
+        return string.Format(
             CultureInfo.InvariantCulture,
-			"[DataMember]\r\n"+
-			"\tprivate {1} {6};\r\n"+
-            "\t{0} {5} {2} "+
-			"\t{{\r\n" +
-				"\t\t{3}get {{ return {6}.Data; }}\r\n" +
-				"\t\t{4}set {{ SetField(ref {6}, value); }}\r\n" + 
-			"\t}}\r\n",
-            Accessibility.ForNavigationProperty(navProp),
-            "FilterObjectsCollection<" + endType + ">",
+            "{0} {1} {2} {{ {3}get; {4}set; }}\r\n",
+            AccessibilityAndVirtual(Accessibility.ForNavigationProperty(navProp)),
+            navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many ? ("ICollection<" + endType + ">") : endType,
             _code.Escape(navProp),
             _code.SpaceAfter(Accessibility.ForGetter(navProp)),
-            _code.SpaceAfter(Accessibility.ForSetter(navProp)),
-			"ICollection<" + endType + ">",
-			fPrivateName
-			);
-		}else{
-			return string.Format(
-            CultureInfo.InvariantCulture,
-			"[DataMember]\r\n"+
-			"\tprivate {1} {5};\r\n"+
-            "\t{0} {1} {2} " +
-			"\t{{\r\n"+
-				"\t\t{3}get {{ return {5}; }}\r\n"+
-				"\t\t{4}set {{ SetField(ref {5}, value); }}\r\n"+
-			"\t}}\r\n",
-            Accessibility.ForNavigationProperty(navProp),
-            endType,
-            _code.Escape(navProp),
-            _code.SpaceAfter(Accessibility.ForGetter(navProp)),
-            _code.SpaceAfter(Accessibility.ForSetter(navProp)),
-			fPrivateName
-			);
-		}        
+            _code.SpaceAfter(Accessibility.ForSetter(navProp)));
     }
     
-	public string NavigationPropertyMeta(NavigationProperty navProp)
-    {
-        var endType = _typeMapper.GetTypeName(navProp.ToEndMember.GetEntityType());
-		string fName = _code.Escape(navProp);
-
-		if(navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many){
-			return string.Format(
-            CultureInfo.InvariantCulture,
-			"[Display({6})]\r\n"+
-			"\tpublic {1} {5} {{ {3}get; {4}set; }}\r\n",
-            Accessibility.ForNavigationProperty(navProp),
-            "ICollection<" + endType + ">",
-            _code.Escape(navProp),
-            _code.SpaceAfter(Accessibility.ForGetter(navProp)),
-            _code.SpaceAfter(Accessibility.ForSetter(navProp)),
-			fName,
-			"Name=\"\""
-			);
-		}else{ 
-			return string.Format(
-            CultureInfo.InvariantCulture,
-			"[Display({6})]\r\n"+
-			"\tpublic {1} {5} {{ {3}get; {4}set; }}\r\n",
-            Accessibility.ForNavigationProperty(navProp),
-            endType,
-            _code.Escape(navProp),
-            _code.SpaceAfter(Accessibility.ForGetter(navProp)),
-            _code.SpaceAfter(Accessibility.ForSetter(navProp)),
-			fName,
-			"Name=\"" + Char.ToUpperInvariant(_code.Escape(navProp)[0]) + _code.Escape(navProp).Substring(1) + "\""
-			);
-		}        
-    }
-
     public string AccessibilityAndVirtual(string accessibility)
     {
         return accessibility + (accessibility != "private" ? " virtual" : "");
@@ -727,12 +589,12 @@ public class CodeStringGenerator
     public string EntityClassOpening(EntityType entity, bool serialized = false)
     {
          return string.Format(
-			CultureInfo.InvariantCulture, 
+			CultureInfo.InvariantCulture,
 			"{0} {1}partial class {2}{3}",
 			Accessibility.ForType(entity),
 			_code.SpaceAfter(_code.AbstractOption(entity)),
 			_code.Escape(entity),
-			_code.StringBefore(" : ", string.IsNullOrEmpty(_typeMapper.GetTypeName(entity.BaseType)) ? (serialized ? "Serialized" : "" ) + "FilterObjectbase" : _typeMapper.GetTypeName(entity.BaseType)));
+			_code.StringBefore(" : ", string.IsNullOrEmpty(_typeMapper.GetTypeName(entity.BaseType)) ? (serialized ? "Serialized" : "" ) + "EntityBase" : _typeMapper.GetTypeName(entity.BaseType)));
     }
 	
 	public string EntityClassOpeningMeta(EntityType entity) 
@@ -852,11 +714,8 @@ public class CodeStringGenerator
                 "{2}" +
 				"using System.ComponentModel.DataAnnotations;\r\n"+
 				"using System.ComponentModel.DataAnnotations.Schema;\r\n"+
-				"using System.Runtime.Serialization;\r\n"+
-				"using DevExpress.Data.Filtering;\r\n" +
 				"using xwcs.core.db;\r\n"+
 				"using xwcs.core.db.binding.attributes;\r\n"+
-				"using xwcs.core.db.fo;\r\n"+
 				"using xwcs.core.db.model.attributes;{2}",
                 inHeader ? Environment.NewLine : "",
                 includeCollections ? (Environment.NewLine + "using System.Collections.Generic;") : "",
@@ -946,7 +805,7 @@ public class TypeMapper
             typeName = FixNamespaces(typeName);
 
             return clrType.IsValueType && isNullable == true ?
-                String.Format(CultureInfo.InvariantCulture, "{0}?", typeName) :
+                String.Format(CultureInfo.InvariantCulture, "Nullable<{0}>", typeName) :
                 typeName;
         }
 
@@ -1171,11 +1030,11 @@ public static void ArgumentNotNull<T>(T arg, string name) where T : class
 
 
 public class Variables{
-	public const string solutionDir = @"$solutiondirectory$";
-	public const string rootname = @"$rootname$";
-	public const string safeitemname = @"$safeitemname$";
-	public const string rootnamespace = @"$rootnamespace$";
-	public const string genTime = @"$time$";
-	public const string genUserName = @"$username$";
+	public const string solutionDir = @"E:\Projekty\xwcs\xwcs.vsix\";
+	public const string rootname = @"Iter_new.tt";
+	public const string safeitemname = @"Iter_new";
+	public const string rootnamespace = @"Test.db.iter_new";
+	public const string genTime = @"25/07/2016 14:18:31";
+	public const string genUserName = @"Laco";
 }
 #>

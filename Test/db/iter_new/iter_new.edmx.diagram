@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2dcd08f416d9475998d32080f83f72b1" Name="Diagram1">
+        <EntityTypeShape EntityType="niter_newModel.iter" Width="1.5" PointX="5.125" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="niter_newModel.iter_in_opere" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="niter_newModel.opere" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <AssociationConnector Association="niter_newModel.fk_iter_in_opere_opere" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="niter_newModel.tipologie" Width="1.5" PointX="2.875" PointY="5.25" />
+        <AssociationConnector Association="niter_newModel.fk_iter_tipologie" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

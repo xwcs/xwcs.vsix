@@ -9,18 +9,33 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DevExpress.XtraEditors.Repository;
 using Test.db.model1;
+using xwcs.core.db.binding;
+using xwcs.core.ui.db;
 
 namespace Test
 {
-	public partial class Form2 : Form
-	{
+	public partial class Form2 : Form , IEditorsHost
+    {
 
 		test1Entities ctx;
 		test1Entities1 ctx1;
 
 		xwcs.core.db.binding.DataLayoutBindingSource bs;
+        private FormSupport _formSupport;
+        public IFormSupport FormSupport
+        {
+            get
+            {
+                if (_formSupport == null)
+                {
+                    // form support must exist first
+                    _formSupport = new xwcs.core.ui.db.FormSupport();
+                }
+                return _formSupport;
+            }
+        }
 
-		public Form2()
+        public Form2()
 		{
 
 			InitializeComponent();
@@ -33,10 +48,10 @@ namespace Test
 			ctx.Database.Log = xwcs.core.manager.SLogManager.getInstance().Debug; // Console.Write;
 
 			
-			bs = new xwcs.core.db.binding.DataLayoutBindingSource();
+			bs = new xwcs.core.db.binding.DataLayoutBindingSource(this);
 			bs.DataSource = ctx.bab.Where(s => s.id == 100).ToList();
 			
-
+            /*
 			bs.GetFieldQueryable += (sender, d) =>
 			{
 				switch (d.FieldName)
@@ -46,6 +61,7 @@ namespace Test
 						break;
 				}
 			};
+            */
 
 			bs.DataLayout = dataLayoutControl1;			
 			
@@ -53,7 +69,17 @@ namespace Test
 
 		}
 
-		private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        public void onGetOptionsList(object sender, GetFieldOptionsListEventData qd)
+        {
+            switch (qd.FieldName)
+            {
+                case "cc":
+                    qd.Data = ctx1.names.ToList();
+                    break;
+            }
+        }
+
+        private void barButtonItem1_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
 		{
 			object snapShot = bs.Current;
 

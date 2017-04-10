@@ -10,10 +10,12 @@ using System.Windows.Forms;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.Utils;
 using Test.db.model1;
+using xwcs.core.db.binding;
+using xwcs.core.ui.db;
 
 namespace Test
 {
-	public partial class Form4 : Form
+	public partial class Form4 : Form, IEditorsHost
 	{
 
 		
@@ -26,7 +28,15 @@ namespace Test
 
 		int currentRowId = -1;
 
-		public Form4()
+        public IFormSupport FormSupport
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+        public Form4()
 		{
 
 			InitializeComponent();
@@ -58,7 +68,7 @@ namespace Test
 
 
 			bsg = new BindingSource();
-			bs = new xwcs.core.db.binding.DataLayoutBindingSource();
+			bs = new xwcs.core.db.binding.DataLayoutBindingSource(this);
 			bs.DataLayout = dataLayoutControl1;
 
 			dataLayoutControl1.GotFocus += (sender, evt) => {
@@ -114,5 +124,10 @@ namespace Test
 		private void dataLayoutControl1_Enter(object sender, EventArgs e)
 		{
 		}
-	}
+
+        public void onGetOptionsList(object sender, GetFieldOptionsListEventData qd)
+        {
+            
+        }
+    }
 }

@@ -14,10 +14,14 @@ namespace Test
 		[STAThread]
 		static void Main()
 		{
+            // some system init
+            xwcs.core.Core.Init(); 
+
+
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
 			//Application.Run(new States.document.DocumentStateTestForm());
-			Application.Run(new Form8());
+			Application.Run(new Form5_DNF());
 		}
 	}
 }

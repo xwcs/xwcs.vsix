@@ -9,15 +9,13 @@ namespace Test.States.document { // StateMachineNamespace
 		public PubblicatoState(StateMachine machine) : base(machine, "Pubblicato") { }
 
         /// <summary>
-        /// Returns a list of callable triggers
+        /// Returns a list of callable triggers, it will 
         /// </summary>
-        public override List<TriggerBase> GetTriggers()
+		protected override void InitTriggers()
         {
-			List<TriggerBase> l = new List<TriggerBase>();
-			l.Add(new VersionTrigger(StateMachine) ) ;
-			l.Add(new HideTrigger(StateMachine) ) ;
-			l.Add(new SimpleFixTrigger(StateMachine) ) ;
-			return l ;
+			AddTrigger(new VersionTrigger(StateMachine)) ;
+			AddTrigger(new HideTrigger(StateMachine)) ;
+			AddTrigger(new SimpleFixTrigger(StateMachine)) ;
         }
 
 	}

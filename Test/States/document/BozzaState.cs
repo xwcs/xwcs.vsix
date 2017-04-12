@@ -9,14 +9,12 @@ namespace Test.States.document { // StateMachineNamespace
 		public BozzaState(StateMachine machine) : base(machine, "Bozza") { }
 
         /// <summary>
-        /// Returns a list of callable triggers
+        /// Returns a list of callable triggers, it will 
         /// </summary>
-        public override List<TriggerBase> GetTriggers()
+		protected override void InitTriggers()
         {
-			List<TriggerBase> l = new List<TriggerBase>();
-			l.Add(new ConsolidateTrigger(StateMachine) ) ;
-			l.Add(new RemoveTrigger(StateMachine) ) ;
-			return l ;
+			AddTrigger(new ConsolidateTrigger(StateMachine)) ;
+			AddTrigger(new RemoveTrigger(StateMachine)) ;
         }
 
 	}

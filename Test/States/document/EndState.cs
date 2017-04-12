@@ -8,14 +8,6 @@ namespace Test.States.document { // StateMachineNamespace
 	public partial class EndState : StateBase	{ 
 		public EndState(StateMachine machine) : base(machine, "End") { }
 
-        /// <summary>
-        /// Returns a list of callable triggers
-        /// </summary>
-        public override List<TriggerBase> GetTriggers()
-        {
-			List<TriggerBase> l = new List<TriggerBase>();
-			return l ;
-        }
 
 	}
 

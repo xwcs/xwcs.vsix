@@ -2,7 +2,7 @@
  
 
 
-// Converting C:\Projekty\xwcs\xwcs.vsix\Test\States\document\DocumentStates.tastate into .cs file
+// Converting E:\Projekty\xwcs\xwcs.vsix\Test\States\document\DocumentStates.tastate into .cs file
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

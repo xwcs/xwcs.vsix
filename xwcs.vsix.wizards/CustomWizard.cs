@@ -90,10 +90,23 @@ namespace xwcs.vsix.wizards
 
 			EnvDTE.SelectedItem se = dte.DTE.SelectedItems.OfType<EnvDTE.SelectedItem>().First();
 			EnvDTE.ProjectItem projectItem = se.ProjectItem;
-			string path = projectItem.Properties.Item("FullPath").Value.ToString();
+            string path = "";
+            if (projectItem != null)
+            {
+                path = projectItem.Properties.Item("FullPath").Value.ToString();
+            }else
+            {
+                //try with project
+                EnvDTE.Project project = se.Project;
+                if(project != null)
+                {
+                    path = project.Properties.Item("FullPath").Value.ToString();
+                }
+            }
+			
 
 			//  Create the form
-			var form = new ChooseFileForm(path, filterStr);
+            var form = new ChooseFileForm(path, filterStr);
 
 
 			//take eventual first file

@@ -9,13 +9,11 @@ namespace Test.States.document { // StateMachineNamespace
 		public StartState(StateMachine machine) : base(machine, "Start") { }
 
         /// <summary>
-        /// Returns a list of callable triggers
+        /// Returns a list of callable triggers, it will 
         /// </summary>
-        public override List<TriggerBase> GetTriggers()
+		protected override void InitTriggers()
         {
-			List<TriggerBase> l = new List<TriggerBase>();
-			l.Add(new CreateTrigger(StateMachine) ) ;
-			return l ;
+			AddTrigger(new CreateTrigger(StateMachine)) ;
         }
 
 	}

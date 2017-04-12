@@ -343,6 +343,11 @@
     <Compile Include="States\document\VersionTriggers.cs">
       <DependentUpon>Machine1.tt</DependentUpon>
     </Compile>
+    <Compile Include="States\modify\Modify.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Modify.tt</DependentUpon>
+    </Compile>
     <Compile Include="XtraForm1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -410,6 +415,10 @@
     <None Include="States\document\DocumentStates.tastate.diagram">
       <DependentUpon>DocumentStates.tastate</DependentUpon>
     </None>
+    <None Include="States\modify\Modify.tastate" />
+    <None Include="States\modify\Modify.tastate.diagram">
+      <DependentUpon>Modify.tastate</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -440,6 +449,10 @@
     <Content Include="States\document\Machine1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Machine1.cs</LastGenOutput>
+    </Content>
+    <Content Include="States\modify\Modify.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Modify.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

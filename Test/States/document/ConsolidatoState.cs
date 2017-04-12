@@ -9,14 +9,12 @@ namespace Test.States.document { // StateMachineNamespace
 		public ConsolidatoState(StateMachine machine) : base(machine, "Consolidato") { }
 
         /// <summary>
-        /// Returns a list of callable triggers
+        /// Returns a list of callable triggers, it will 
         /// </summary>
-        public override List<TriggerBase> GetTriggers()
+		protected override void InitTriggers()
         {
-			List<TriggerBase> l = new List<TriggerBase>();
-			l.Add(new RejectTrigger(StateMachine) ) ;
-			l.Add(new ValidateTrigger(StateMachine) ) ;
-			return l ;
+			AddTrigger(new RejectTrigger(StateMachine)) ;
+			AddTrigger(new ValidateTrigger(StateMachine)) ;
         }
 
 	}

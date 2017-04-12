@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<stateDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Modify">
+  <stateGraphMoniker name="/" />
+  <nestedChildShapes>
+    <startShape Id="08f5846c-e7d8-4d63-8c0f-4a8b5c84c7a5" absoluteBounds="0.87, 1.3, 0.25, 0.25">
+      <startPointMoniker name="//Start" />
+    </startShape>
+    <endShape Id="b219b29a-7535-4268-86dc-90573e571b59" absoluteBounds="0.87, 3.67, 0.25, 0.25">
+      <endPointMoniker name="//EndPoint1" />
+    </endShape>
+    <stateShape Id="a77cfdf8-2d29-4abc-b999-bfd9dcdfedf8" absoluteBounds="3.0100000000000002, 2.64, 1.2, 0.35" fillColor="WhiteSmoke">
+      <stateMoniker name="//RO" />
+    </stateShape>
+    <stateShape Id="d2aa15ec-af63-4769-8775-f12ab0e8c725" absoluteBounds="6.29, 4.07, 1.2, 0.35" fillColor="WhiteSmoke">
+      <stateMoniker name="//RW" />
+    </stateShape>
+    <stateShape Id="68361176-b880-480a-b1cb-65fd04a163ec" absoluteBounds="3.27, 1.1, 1.2, 0.35" fillColor="WhiteSmoke">
+      <stateMoniker name="//Saved" />
+    </stateShape>
+    <stateShape Id="4c8ea522-51ea-4bd3-b33f-5d95bd33caec" absoluteBounds="5.63, 1.07, 1.2, 0.35" fillColor="WhiteSmoke">
+      <stateMoniker name="//Modified" />
+    </stateShape>
+    <flowConnector edgePoints="[(0.995 : 1.55); (0.995 : 2.815); (3.01 : 2.815)]" fixedFrom="Algorithm" fixedTo="Algorithm" TargetRelationshipDomainClassId="69f16fc9-4419-4490-bd98-50e80f7e15aa">
+      <relativeChildShapes />
+      <nodes>
+        <startShapeMoniker Id="08f5846c-e7d8-4d63-8c0f-4a8b5c84c7a5" />
+        <stateShapeMoniker Id="a77cfdf8-2d29-4abc-b999-bfd9dcdfedf8" />
+      </nodes>
+    </flowConnector>
+    <flowConnector edgePoints="[(3.61 : 2.99); (3.61 : 4.245); (6.29 : 4.245)]" fixedFrom="Algorithm" fixedTo="Algorithm" TargetRelationshipDomainClassId="69f16fc9-4419-4490-bd98-50e80f7e15aa">
+      <relativeChildShapes />
+      <nodes>
+        <stateShapeMoniker Id="a77cfdf8-2d29-4abc-b999-bfd9dcdfedf8" />
+        <stateShapeMoniker Id="d2aa15ec-af63-4769-8775-f12ab0e8c725" />
+      </nodes>
+    </flowConnector>
+    <flowConnector edgePoints="[(3.01 : 2.9337525); (1.0575 : 2.9337525); (1.0575 : 3.67)]" fixedFrom="Algorithm" fixedTo="Algorithm" TargetRelationshipDomainClassId="69f16fc9-4419-4490-bd98-50e80f7e15aa">
+      <relativeChildShapes />
+      <nodes>
+        <stateShapeMoniker Id="a77cfdf8-2d29-4abc-b999-bfd9dcdfedf8" />
+        <endShapeMoniker Id="b219b29a-7535-4268-86dc-90573e571b59" />
+      </nodes>
+    </flowConnector>
+    <flowConnector edgePoints="[(6.56 : 4.07); (6.56 : 1.42)]" fixedFrom="Algorithm" fixedTo="Algorithm" TargetRelationshipDomainClassId="69f16fc9-4419-4490-bd98-50e80f7e15aa">
+      <relativeChildShapes />
+      <nodes>
+        <stateShapeMoniker Id="d2aa15ec-af63-4769-8775-f12ab0e8c725" />
+        <stateShapeMoniker Id="4c8ea522-51ea-4bd3-b33f-5d95bd33caec" />
+      </nodes>
+    </flowConnector>
+    <flowConnector edgePoints="[(5.63 : 1.26); (4.47 : 1.26)]" fixedFrom="Algorithm" fixedTo="Algorithm" TargetRelationshipDomainClassId="69f16fc9-4419-4490-bd98-50e80f7e15aa">
+      <relativeChildShapes />
+      <nodes>
+        <stateShapeMoniker Id="4c8ea522-51ea-4bd3-b33f-5d95bd33caec" />
+        <stateShapeMoniker Id="68361176-b880-480a-b1cb-65fd04a163ec" />
+      </nodes>
+    </flowConnector>
+    <flowConnector edgePoints="[(3.74 : 1.45); (3.74 : 2.64)]" manuallyRouted="true" fixedFrom="Algorithm" fixedTo="Algorithm" TargetRelationshipDomainClassId="69f16fc9-4419-4490-bd98-50e80f7e15aa">
+      <relativeChildShapes />
+      <nodes>
+        <stateShapeMoniker Id="68361176-b880-480a-b1cb-65fd04a163ec" />
+        <stateShapeMoniker Id="a77cfdf8-2d29-4abc-b999-bfd9dcdfedf8" />
+      </nodes>
+    </flowConnector>
+    <flowConnector edgePoints="[(6.0637475 : 1.42); (6.0637475 : 2.815); (4.21 : 2.815)]" fixedFrom="Algorithm" fixedTo="Algorithm" TargetRelationshipDomainClassId="69f16fc9-4419-4490-bd98-50e80f7e15aa">
+      <relativeChildShapes />
+      <nodes>
+        <stateShapeMoniker Id="4c8ea522-51ea-4bd3-b33f-5d95bd33caec" />
+        <stateShapeMoniker Id="a77cfdf8-2d29-4abc-b999-bfd9dcdfedf8" />
+      </nodes>
+    </flowConnector>
+  </nestedChildShapes>
+</stateDiagram>

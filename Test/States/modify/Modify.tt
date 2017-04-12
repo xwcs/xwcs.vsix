@@ -13,7 +13,7 @@
 
 <#
 //const string inputFile = @"$ InputFile $"; 
-const string inputFile = @"DocumentStates.tastate"; 
+const string inputFile = @"Modify.tastate"; 
 
 
 var path = System.IO.Path.GetDirectoryName(this.Host.TemplateFile);
@@ -125,30 +125,27 @@ StateGraph sg = new StateGraph(path) ;
 	{ 
 		public <#= state.Attributes["name"].InnerXml #>State(StateMachine machine) : base(machine, "<#= state.Attributes["name"].InnerXml #>") { }
 
+        /// <summary>
+        /// Returns a list of callable triggers
+        /// </summary>
+        public override List<TriggerBase> GetTriggers()
+        {
+			List<TriggerBase> l = new List<TriggerBase>();
 <# 
 			XmlNodeList possibleTransitions = state.SelectNodes("./x:flowTo/x:flow", nsmgr) ;
-			if(possibleTransitions.Count > 0){
-#>
-        /// <summary>
-        /// Returns a list of callable triggers, it will 
-        /// </summary>
-		protected override void InitTriggers()
-        {
-<# 
 			foreach(XmlElement transition in possibleTransitions)
             {
 				var gName = GetAttValue(transition, "guard") ;
 				if ( !string.IsNullOrEmpty(gName) ) {
 #>
-			AddTrigger(new <#= gName #>Trigger(StateMachine)) ;
+			l.Add(new <#= gName #>Trigger(StateMachine) ) ;
 <#
                 }
             }
 #>
+			return l ;
         }
 <#		
-            } // if there were trigger 
-
 		if ( null != inAction ) {
 #>
 
@@ -614,15 +611,15 @@ public class condition {
 
 public class Variables{
 //	public const string solutionDir = @"$ solutiondirectory $";
-	public const string solutionDir = @"C:\Projekty\xwcs\xwcs.vsix\";
+	public const string solutionDir = @"E:\Projekty\xwcs\xwcs.vsix\";
 //	public const string rootname = @"$ rootname $";
-	public const string rootname = @"Machine1.tt";
+	public const string rootname = @"Modify.tt";
 //	public const string safeitemname = @"$ safeitemname $";
-	public const string safeitemname = @"Machine1";
+	public const string safeitemname = @"Modify";
 //	public const string rootnamespace = @"$ rootnamespace $";
-	public const string rootnamespace = @"Test.States.document";
+	public const string rootnamespace = @"Test.States.modify";
 //	public const string genTime = @"$ time $";
-	public const string genTime = @"09/05/2016 09:46:45";
+	public const string genTime = @"12/04/2017 12:10:04";
 //	public const string genUserName = @"$ username $";}
 	public const string genUserName = @"Laco";}
  #>

@@ -63,8 +63,9 @@ codeStringGenerator.EntityClassOpening(entity, serializedCount > 0)
 
     foreach (var navigationProperty in collectionNavigationProperties)
     {
+		var propType = typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType());
 #>
-		this.<#=code.Escape(navigationProperty)#> = new HashSet<<#=typeMapper.GetTypeName(navigationProperty.ToEndMember.GetEntityType())#>>();
+		this.<#=code.Escape(navigationProperty)#> = new BindingList<<#=propType#>>(new HashSet<<#=propType#>>());
 <#
     }
 
@@ -575,7 +576,7 @@ public class CodeStringGenerator
             CultureInfo.InvariantCulture,
             "{0} {1} {2} {{ {3}get; {4}set; }}\r\n",
             AccessibilityAndVirtual(Accessibility.ForNavigationProperty(navProp)),
-            navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many ? ("ICollection<" + endType + ">") : endType,
+            navProp.ToEndMember.RelationshipMultiplicity == RelationshipMultiplicity.Many ? ("BindingList<" + endType + ">") : endType,
             _code.Escape(navProp),
             _code.SpaceAfter(Accessibility.ForGetter(navProp)),
             _code.SpaceAfter(Accessibility.ForSetter(navProp)));
@@ -712,6 +713,7 @@ public class CodeStringGenerator
                 CultureInfo.InvariantCulture,
                 "{0}using System;{1}" +
                 "{2}" +
+				"using System.ComponentModel;\r\n"+
 				"using System.ComponentModel.DataAnnotations;\r\n"+
 				"using System.ComponentModel.DataAnnotations.Schema;\r\n"+
 				"using xwcs.core.db;\r\n"+

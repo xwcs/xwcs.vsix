@@ -125,27 +125,30 @@ StateGraph sg = new StateGraph(path) ;
 	{ 
 		public <#= state.Attributes["name"].InnerXml #>State(StateMachine machine) : base(machine, "<#= state.Attributes["name"].InnerXml #>") { }
 
-        /// <summary>
-        /// Returns a list of callable triggers
-        /// </summary>
-        public override List<TriggerBase> GetTriggers()
-        {
-			List<TriggerBase> l = new List<TriggerBase>();
 <# 
 			XmlNodeList possibleTransitions = state.SelectNodes("./x:flowTo/x:flow", nsmgr) ;
+			if(possibleTransitions.Count > 0){
+#>
+        /// <summary>
+        /// Returns a list of callable triggers, it will 
+        /// </summary>
+		protected override void InitTriggers()
+        {
+<# 
 			foreach(XmlElement transition in possibleTransitions)
             {
 				var gName = GetAttValue(transition, "guard") ;
 				if ( !string.IsNullOrEmpty(gName) ) {
 #>
-			l.Add(new <#= gName #>Trigger(StateMachine) ) ;
+			AddTrigger(new <#= gName #>Trigger(StateMachine)) ;
 <#
                 }
             }
 #>
-			return l ;
         }
 <#		
+            } // if there were trigger 
+
 		if ( null != inAction ) {
 #>
 
